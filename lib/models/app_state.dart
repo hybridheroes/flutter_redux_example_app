@@ -7,4 +7,9 @@ class AppState {
   const AppState({
     @required this.reduxSetup,
   });
+
+  @override
+  String toString() {
+    return 'AppState: {reduxSetup: $reduxSetup}';
+  }
 }
