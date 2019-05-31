@@ -5,3 +5,15 @@ class SetColor {
 
   SetColor(this.boxColor);
 }
+
+class SetSize {
+  final MyBoxSize boxSize;
+
+  SetSize(this.boxSize);
+}
+
+class SetShape {
+  final double borderRadius;
+
+  SetShape(this.borderRadius);
+}
