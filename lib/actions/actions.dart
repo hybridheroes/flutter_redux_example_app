@@ -1,5 +1,7 @@
-class TestAction {
-  final bool testPayload;
+import 'package:sample_flutter_redux_app/models/models.dart';
 
-  TestAction(this.testPayload);
+class SetColor {
+  final MyBoxColor boxColor;
+
+  SetColor(this.boxColor);
 }

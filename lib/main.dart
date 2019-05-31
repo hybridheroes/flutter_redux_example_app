@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux_logging/redux_logging.dart';
 import 'package:sample_flutter_redux_app/models/models.dart';
 import 'package:sample_flutter_redux_app/reducers/app_reducer.dart';
 import 'package:sample_flutter_redux_app/color_box.dart';
 import 'package:sample_flutter_redux_app/color_controller.dart';
 
 void main() {
-  final store = Store<AppState>(
-    appReducer,
-    initialState: AppState(reduxSetup: false),
+  final initialState = AppState(
+    boxColor: MyBoxColor(
+      red: 5.0,
+      green: 5.0,
+      blue: 5.0,
+    ),
   );
 
-  print('Initial state: ${store.state}');
+  final store = Store<AppState>(
+    appReducer,
+    initialState: initialState,
+    middleware: [new LoggingMiddleware.printer()],
+  );
 
   runApp(StoreProvider(store: store, child: MyApp()));
 }
