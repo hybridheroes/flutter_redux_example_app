@@ -3,7 +3,8 @@ import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:sample_flutter_redux_app/models/models.dart';
 import 'package:sample_flutter_redux_app/reducers/app_reducer.dart';
-import 'package:sample_flutter_redux_app/actions/actions.dart';
+import 'package:sample_flutter_redux_app/color_box.dart';
+import 'package:sample_flutter_redux_app/color_controller.dart';
 
 void main() {
   final store = Store<AppState>(
@@ -25,23 +26,32 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: Text('Flutter Redux Demo'),
         ),
-        body: StoreConnector<AppState, bool>(
-          converter: (Store<AppState> store) => store.state.reduxSetup,
-          builder: (BuildContext context, bool reduxSetup) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text('Redux is working: $reduxSetup'),
-                  RaisedButton(
-                    child: Text('Dispatch action'),
-                    onPressed: () => StoreProvider.of<AppState>(context)
-                        .dispatch(TestAction(true)),
-                  ),
-                ],
+        body: Padding(
+          padding: EdgeInsets.all(20),
+          child: ListView(
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.only(top: 10),
+                child: Column(
+                  children: <Widget>[
+                    Text('Color Controller'),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.only(right: 20),
+                            child: ColorController(),
+                          ),
+                        ),
+                        ColorBox(),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            );
-          },
+            ],
+          ),
         ),
       ),
     );
