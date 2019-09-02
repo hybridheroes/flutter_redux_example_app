@@ -1,7 +1,10 @@
+import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:sample_flutter_redux_app/actions/actions.dart';
+import 'package:sample_flutter_redux_app/models/api_client.dart';
 import 'package:sample_flutter_redux_app/models/models.dart';
 
 class Randomizer extends StatelessWidget {
@@ -13,7 +16,25 @@ class Randomizer extends StatelessWidget {
         return RaisedButton(
           child: Text('Randomize'),
           onPressed: () {
-            vm.randomize();
+            vm.randomize((ColorException e) {
+              showCupertinoDialog(
+                context: context,
+                builder: (context) => CupertinoAlertDialog(
+                  content: Text(
+                    e.message,
+                    style: TextStyle(color: e.badColor),
+                  ),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text('Ok'),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                ),
+              );
+            });
           },
         );
       },
@@ -22,14 +43,20 @@ class Randomizer extends StatelessWidget {
 }
 
 class _ViewModel {
-  final VoidCallback randomize;
+  final Function(Function(ColorException)) randomize;
 
   _ViewModel({@required this.randomize});
 
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
-      randomize: () {
-        store.dispatch(getBoxColor());
+      randomize: (Function(ColorException) onError) async {
+        Completer completer = new Completer();
+        store.dispatch(getBoxColor(completer));
+        try {
+          await completer.future;
+        } on ColorException catch (e) {
+          onError(e);
+        }
       },
     );
   }

@@ -11,7 +11,7 @@ class ResultBox extends StatelessWidget {
       converter: (Store<AppState> store) => _ViewModel.fromStore(store),
       builder: (BuildContext context, _ViewModel vm) {
         return Container(
-          margin: EdgeInsets.symmetric(vertical: 64),
+          margin: EdgeInsets.symmetric(vertical: 16),
           width: 100,
           height: 100,
           child: Center(

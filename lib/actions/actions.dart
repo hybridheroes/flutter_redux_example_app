@@ -1,12 +1,18 @@
+import 'dart:async';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:sample_flutter_redux_app/models/api_client.dart';
 import 'package:sample_flutter_redux_app/models/models.dart';
 
-ThunkAction<AppState> getBoxColor() {
+ThunkAction<AppState> getBoxColor(Completer completer) {
   return (Store<AppState> store) async {
-    MyBoxColor boxColor = await ApiClient.getBoxColor();
-    store.dispatch(SetColor(boxColor));
+    try {
+      MyBoxColor boxColor = await ApiClient.getBoxColor();
+      store.dispatch(SetColor(boxColor));
+      completer.complete();
+    } on ColorException catch (e) {
+      completer.completeError(e);
+    }
   };
 }
 
