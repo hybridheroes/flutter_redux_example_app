@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux_logging/redux_logging.dart';
+import 'package:redux_thunk/redux_thunk.dart';
 import 'package:sample_flutter_redux_app/models/models.dart';
+import 'package:sample_flutter_redux_app/randomizer.dart';
 import 'package:sample_flutter_redux_app/reducers/app_reducer.dart';
 import 'package:sample_flutter_redux_app/result_box.dart';
 import 'package:sample_flutter_redux_app/color_controller.dart';
@@ -31,7 +33,10 @@ void main() {
   final store = Store<AppState>(
     appReducer,
     initialState: initialState,
-    middleware: [new LoggingMiddleware.printer()],
+    middleware: [
+      thunkMiddleware,
+      new LoggingMiddleware.printer(),
+    ],
   );
 
   runApp(StoreProvider(store: store, child: MyApp()));
@@ -55,7 +60,13 @@ class MyApp extends StatelessWidget {
                 padding: EdgeInsets.only(top: 10),
                 child: Column(
                   children: <Widget>[
-                    Text('Color Controller'),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text('Color Controller'),
+                        Randomizer(),
+                      ],
+                    ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[

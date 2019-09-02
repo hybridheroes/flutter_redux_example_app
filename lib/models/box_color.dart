@@ -21,6 +21,11 @@ class MyBoxColor {
     );
   }
 
+  MyBoxColor.fromJson(dynamic json)
+      : red = json['red'],
+        green = json['green'],
+        blue = json['blue'];
+
   dynamic toJson() => {
         'red': red,
         'green': green,
